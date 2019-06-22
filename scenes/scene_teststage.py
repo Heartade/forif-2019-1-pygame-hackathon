@@ -1,9 +1,6 @@
-import pygame as pg
-import wingbase.colors as colors
-import sys
-import wingbase.ui as ui
-import wingbase.scene as scene
 import prefabs.prefabs as prefabs
+import pygame as pg
+import wingbase.scene as scene
 import random
 
 #왼쪽 위 부터 넘버링
@@ -78,15 +75,22 @@ class Flag(pg.sprite.Sprite):
     self.rect.x = x
     self.rect.y = y
 
+#class Coffee(pg.sprite.Sprite)
+
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
+
     self.score = 0
     self.game_font = pg.font.Font('./assets/NotoSans-BoldItalic.ttf',24)
     self.edgemask = BCGMask(self,'./assets/edgemask.png', 'Edge')
     self.group_bcgmask = pg.sprite.Group()
     self.group_bcgmask.add(self.edgemask)
     self.group_buildings = pg.sprite.Group()
+<<<<<<< HEAD
+    self.group_buildings.add(BCGMask(self,'assets/bcg_edu.png','Education Building'))
+    self.group_buildings.add(BCGMask(self,'assets/bcg_library.png','Library'))
+=======
     self.group_buildings.add(BCGMask(self,'./assets/bcg_edu.png','Education Building'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_library.png','Library'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_historic.png','Hanyang History Building'))
@@ -95,6 +99,7 @@ class Scene_TestStage(scene.Scene):
     self.group_buildings.add(BCGMask(self,'./assets/bcg_itbt.png','IT/BT'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_engi2.png','Engineering Building 1'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_engi1.png','Engineering Building 2'))
+>>>>>>> fdcf29b1633c37f5d1e8c8043f1bba3d98721bed
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
@@ -139,6 +144,10 @@ class Scene_TestStage(scene.Scene):
     self.finish_timer = pg.time.get_ticks()
     self.death_time = -1
     self.spawn_enemy()
+
+    pg.mixer.music.load('./assets/sound/HYU_schoolsong_mr_16bit.wav')
+    pg.mixer.music.play(-1)
+
   def spawn_enemy(self):
     char_selector = random.randint(0,1)
     pos = [0,0]
@@ -192,6 +201,7 @@ if __name__ == "__main__":
   FPS = 60
   CLOCK = pg.time.Clock()
   SCENE = Scene_TestStage(WINDOW, CLOCK, 60, [])
+
   while True:
     SCENE.loop_begin()
     SCENE.loop()
