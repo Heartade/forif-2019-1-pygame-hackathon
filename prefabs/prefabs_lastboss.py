@@ -1,14 +1,15 @@
 import pygame as pg
+import random
+import math
 
 hakgua = 'mun'
 
 class Bullet(pg.sprite.Sprite):
     def __init__(self, SCENE, x, y, speed, angle):
         pg.sprite.Sprite.__init__(self)
-        #self.radius = 6
         self.SCENE = SCENE
         if hakgua == 'mun':
-            self.image = pg.image.load('./assets/report.png')
+            self.image = pg.image.load('./assets/dissertation_1.png')
         else:
             self.image = pg.image.load('./assets/dissertation_2.png')
         self.rect = self.image.get_rect()
@@ -24,46 +25,37 @@ class Bullet(pg.sprite.Sprite):
         self.rect.centery += self.yspeed
         if self.rect.centery <= 0:
             self.kill()
-            
-        #if self.x < 0 or self.x > self.SCENE.WINDOW.get_size()[0]:
-            #self.kill()
-        #if self.y < 0 or self.y > self.SCENE.WINDOW.get_size()[1]:
-            #self.kill()
-        #self.rect.center = (int(self.x), int(self.y))
 
 class ProfessorBullet(Bullet):
     def __init__(self, SCENE, x, y, speed, angle):
         super().__init__(SCENE, x, y, speed, angle)
         self.image = pg.image.load('./assets/grade_c.png')
-
-    
-        
-
-
-        
+        self.speed = speed
+        self.angle = angle
+    def update(self):
+        second_passed = self.SCENE.CLOCK.get_time()/1000
+        self.rect.centerx += self.speed*second_passed*math.cos(math.radians(self.angle))
+        self.rect.centery += self.speed*second_passed*math.sin(math.radians(self.angle))
+        if self.rect.centery <= 0:
+            self.kill()
 
 class Player(pg.sprite.Sprite):
     def __init__(self, SCENE, x, y, angle):
         pg.sprite.Sprite.__init__(self)
         self.SCENE = SCENE
         self.angle = 90
-        self.original_image = pg.image.load('./assets/small_avatar.png')
+        self.original_image = pg.image.load('./assets/avatar.png')
         self.image = self.original_image
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.xspeed = 10
+        self.xspeed = 50
         self.last_launch = pg.time.get_ticks()
         self.health = 50
-
-    def hit(self, player_damage):
-        self.health -= player_damage
-        if self.health < 0:
-            self.kill()
             
     def launch(self):
         if pg.time.get_ticks() - self.last_launch > 100:
-            self.SCENE.group_playerbullets.add(Bullet(self.SCENE, self.x, self.y, self.xspeed/100, self.angle))
+            self.SCENE.group_playerbullets.add(Bullet(self.SCENE, self.x, self.y, self.xspeed/1000, self.angle))
             self.last_launch = pg.time.get_ticks()
 
     def update(self): 
@@ -98,36 +90,23 @@ class Professor(pg.sprite.Sprite):
     def __init__(self, SCENE, x, y, angle):
         pg.sprite.Sprite.__init__(self)
         self.SCENE = SCENE
-        #self.radius = 16
-        self.angle = 270
-        self.original_image = pg.image.load('./assets/small_avatar.png')
-        self.image = self.original_image
+        self.angle = 90
+        self.original_image = pg.image.load('./assets/avatar_professor.png')
+        self.image = pg.transform.rotate(self.original_image, 90)
         self.rect = self.image.get_rect()
-        self.x = 500
-        self.y = 300
+        self.x = x
+        self.y = y
         self.last_launch = pg.time.get_ticks()
         self.health = 100
 
-    def hit(self, professor_damage):
-        self.health -= professor_damage
-        if self.health < 0:
-            self.kill()
-
     def launch(self):
-        if pg.time.get_ticks() - self.last_launch > 200: 
-            #self. SCENE.group_professorbullets.add(ProfessorBullet(self.SCENE, self.x, self.y((self.xspeed**2+self.yspeed**2)**0.5+100,), self.angle))
-            self. SCENE.group_professorbullets.add(ProfessorBullet(self.SCENE, 500, 100, 10, self.angle))
-            self.last_launch = pg.time.get_ticks()
+        self.SCENE.group_bullets.add(ProfessorBullet(self.SCENE, self.x, self.y, 100, random.randint(30, 150)))
+        self.last_launch = pg.time.get_ticks()
 
     def update(self):
         second_passed = self.SCENE.CLOCK.get_time()/1000
-        if pg.key.get_focused:
-            if pg.key.get_pressed()[pg.K_a]:
-                self.launch()
-            if pg.key.get_pressed()[pg.K_d]:
-                self.launch()
-                
         self.image = self.original_image
         self.rect = self.image.get_rect()
-        self.rect.center = (500, 300)
-        
+        self.rect.center = (int(self.x), int(self.y))
+        if self.last_launch+1000 <= pg.time.get_ticks():
+            self.launch()

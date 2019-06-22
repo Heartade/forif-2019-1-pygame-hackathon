@@ -1,8 +1,5 @@
 import pygame as pg
-import wingbase.colors as colors
 import sys
-import wingbase.ui as ui
-
 import wingbase.scene as scene
 import scenes.scene_lastboss as scene_lastboss
 
@@ -10,7 +7,7 @@ if __name__ == "__main__":
   pg.init()
   pg.font.init()
 
-  SCREEN = (960, 720)
+  SCREEN = (1080, 720)
   WINDOW = pg.display.set_mode(SCREEN)
   FPS = 60
   CLOCK = pg.time.Clock()
