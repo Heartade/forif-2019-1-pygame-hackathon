@@ -116,29 +116,37 @@ class Scene_TestStage(scene.Scene):
     self.group_bcgmask = pg.sprite.Group()
     self.group_bcgmask.add(self.edgemask)
     self.group_buildings = pg.sprite.Group()
+
     self.group_buildings.add(BCGMask(self,'./assets/bcg_edu.png','Education Building'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_library.png','Library'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_historic.png','Hanyang History Building'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_dorm1.png','Dorm1'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_lion.png','Lion Statue'))
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_mainbdg.png','Main Building'))
+    
+    
+    #self.group_buildings.add(BCGMask(self,'./assets/bcg_mainbdg.png','Main Building'))
+
     self.group_buildings.add(BCGMask(self,'./assets/bcg_itbt.png','IT/BT'))
+    '''
     self.group_buildings.add(BCGMask(self,'./assets/bcg_engi1.png','Engineering Building 1'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_engi2.png','Engineering Building 2'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_business.png','HIT'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_nature.png','Nature'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_paiknammusic.png','Music'))
+    
     self.group_buildings.add(BCGMask(self,'./assets/bcg_music2.png','Music2'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_plaza.png','Plaza'))
+    '''
     self.group_buildings.add(BCGMask(self,'./assets/bcg_rotc.png','Rotc'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_lit.png','Lit'))
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_metrogate.png','Metro'))
+    #self.group_buildings.add(BCGMask(self,'./assets/bcg_metrogate.png','Metro'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_chungmongkoo.png','CMG'))
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_intl.png','Intl'))
+    #self.group_buildings.add(BCGMask(self,'./assets/bcg_intl.png','Intl'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_edu2.png','Edu2'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_theater.png','Theater'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_livsci.png','Liv'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_colosseum.png','Colo'))
+    
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
@@ -221,7 +229,7 @@ class Scene_TestStage(scene.Scene):
     for player in collision:
       for enemy in collision[player]:
         enemy.destroy()
-        self.player.hit(50)
+        self.player.hit(200)
     collision = pg.sprite.groupcollide(self.group_enemybullets,self.group_playerbullets,True,True)
     for bullet in collision:
       for enemybullet in collision[bullet]:
