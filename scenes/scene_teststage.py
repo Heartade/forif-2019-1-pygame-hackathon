@@ -22,6 +22,15 @@ building_dict = {
   'Music2': [False, [630,410]],
   'Plaza': [False, [390,600]],
   'Rotc': [False, [580,500]],
+  'HIT': [False, [620,230]],
+  'Lit': [False, [254,484]],
+  'Metro': [False, [430,648]],
+  'CMG': [False, [520,550]],
+  'Intl': [False, [480,670]],
+  'Edu2': [False, [330,420]],
+  'Theater': [False, [562,609]],
+  'Liv': [False, [575,440]],
+  'Colo': [False, [700,500]]
 }
 def turn_flag(x,y):
   for i in building_flag:
@@ -122,8 +131,14 @@ class Scene_TestStage(scene.Scene):
     self.group_buildings.add(BCGMask(self,'./assets/bcg_music2.png','Music2'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_plaza.png','Plaza'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_rotc.png','Rotc'))
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_engi2.png','Engineering Building 1'))
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_engi1.png','Engineering Building 2'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_lit.png','Lit'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_metrogate.png','Metro'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_chungmongkoo.png','CMG'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_intl.png','Intl'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_edu2.png','Edu2'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_theater.png','Theater'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_livsci.png','Liv'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_colosseum.png','Colo'))
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
