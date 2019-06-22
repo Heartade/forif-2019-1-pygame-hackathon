@@ -14,7 +14,7 @@ if __name__ == "__main__":
   pg.init()
   pg.font.init()
 
-  SCREEN = (960, 720)
+  SCREEN = (1080, 720)
   WINDOW = pg.display.set_mode(SCREEN)
   FPS = 60
   CLOCK = pg.time.Clock()
