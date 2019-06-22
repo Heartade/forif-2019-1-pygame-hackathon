@@ -7,7 +7,7 @@ import prefabs.prefabs as prefabs
 import random
 
 building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-patrol_points = [[100, 100], [200,100], [300,100], [400,100], [500,100]]
+patrol_points = [ [250,200], [520,70], [670,80], [750,350], [620, 450]]
 
 class Bar(pg.sprite.Sprite):
   def __init__(self, SCENE, rect, image, edge, overlay, animation, speed, max_val):

@@ -259,29 +259,29 @@ class Enemy(pg.sprite.Sprite):
     if self.angry == 0:
       if self.x > self.patrol_point[0]:
         if self.xspeed > -100:
-          self.xspeed -= 50*second_passed
+          self.xspeed -= 200*second_passed
       if self.x < self.patrol_point[0]:
         if self.xspeed < 100:
-          self.xspeed += 50*second_passed
+          self.xspeed += 200*second_passed
       if self.y > self.patrol_point[1]:
         if self.yspeed > -100:
-          self.yspeed -= 50*second_passed
+          self.yspeed -= 200*second_passed
       if self.y < self.patrol_point[1]:
         if self.yspeed < 100:
-          self.yspeed += 50*second_passed
+          self.yspeed += 200*second_passed
     elif self.angry == 1:
       if self.x > self.target.x:
         if self.xspeed > -100:
-          self.xspeed -= 50*second_passed
+          self.xspeed -= 200*second_passed
       if self.x < self.target.x:
         if self.xspeed < 100:
-          self.xspeed += 50*second_passed
+          self.xspeed += 200*second_passed
       if self.y > self.target.y:
         if self.yspeed > -100:
-          self.yspeed -= 50*second_passed
+          self.yspeed -= 200*second_passed
       if self.y < self.target.y:
         if self.yspeed < 100:
-          self.yspeed += 50*second_passed
+          self.yspeed += 200*second_passed
 
     # 속도를 점점 느리게 바꿔 줍니다.
     if self.xspeed > 0: self.xspeed -= 50*second_passed
