@@ -173,32 +173,12 @@ class Player(pg.sprite.Sprite):
         self.yspeed = 100
       else :
         self.yspeed = 0
-    # 속도를 점점 느리게 바꿔 줍니다.
-    if self.xspeed > 0: self.xspeed -= 50*second_passed
-    elif self.xspeed < 0: self.xspeed += 50*second_passed
-    if self.yspeed > 0: self.yspeed -= 50*second_passed
-    elif self.yspeed < 0: self.yspeed += 50*second_passed
     # 좌표를 바꿔 줍니다.
     self.old_x = self.x
     self.old_y = self.y
     self.x += second_passed*self.xspeed
     self.y += second_passed*self.yspeed
-    if self.x == pg.mouse.get_pos()[0]: self.angle = 90
-    else: self.angle = math.degrees(math.atan((pg.mouse.get_pos()[1]-self.y)/(self.x - pg.mouse.get_pos()[0])))
-    if self.x > pg.mouse.get_pos()[0]: self.angle += 180
-    if self.x < 16:
-      self.x = 32-self.x
-      self.xspeed = -self.xspeed
-    if self.x > self.SCENE.WINDOW.get_size()[0] - 16:
-      self.x = 2*self.SCENE.WINDOW.get_size()[0] - 32 - self.x
-      self.xspeed = -self.xspeed
-    if self.y < 16:
-      self.y = 32-self.y
-      self.yspeed = -self.yspeed
-    if self.y > self.SCENE.WINDOW.get_size()[1] - 16:
-      self.y = 2*self.SCENE.WINDOW.get_size()[1] - 32 - self.y
-      self.xspeed = -self.xspeed
-    self.image = pg.transform.rotate(self.original_image, 0)
+    self.image = self.original_image
     self.rect = self.image.get_rect()
     self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
