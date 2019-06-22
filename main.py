@@ -14,7 +14,7 @@ if __name__ == "__main__":
   pg.init()
   pg.font.init()
 
-  SCREEN = (360, 480)
+  SCREEN = (1080, 720)
   WINDOW = pg.display.set_mode(SCREEN)
   FPS = 60
   CLOCK = pg.time.Clock()
@@ -23,9 +23,9 @@ if __name__ == "__main__":
   SCENE_TIME = scene_teststage.Scene_TestStage(WINDOW, CLOCK, 60, [])
   SCENE_GAMEOVER = scene_gameover.Scene_Gameover(WINDOW, CLOCK, 60, [])
   SCENE_TIMECLEAR = scene_gameclear.Scene_GameClear(WINDOW, CLOCK, 60, [])
-  SCENE = SCENE_MAINMENU
+  SCENE = SCENE_TIME
   while True:
-    SCENE.loop_begin()
+    SCENE.loop_begin() # begin loop
     next_scene = SCENE.loop()
     if next_scene != 0: # change scene according to loop return
       if SCENE == SCENE_MAINMENU and next_scene == 1:
