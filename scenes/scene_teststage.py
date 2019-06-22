@@ -54,10 +54,10 @@ class BCGMask(pg.sprite.Sprite):
     pg.sprite.Sprite.__init__(self)
     self.SCENE = SCENE
     self.image = pg.image.load(IMAGE)
-    self.mask = pg.mask.from_surface(self.image)
     self.rect = self.image.get_rect()
     self.rect.x = 70
     self.rect.y = -150
+    self.mask = pg.mask.from_surface(self.image)
     self.name = NAME
 
 class Building(pg.sprite.Sprite):
@@ -158,7 +158,6 @@ class Scene_TestStage(scene.Scene):
     collision = pg.sprite.groupcollide(self.group_player,self.group_buildings,False,False,pg.sprite.collide_mask)
     for player in collision:
       for building in collision[player]:
-        print('collision...'+building.name)
         flag = Flag(self, self.player.x, self.player.y)
         self.group_flag.add(flag)
         self.groups.append(self.group_flag)
