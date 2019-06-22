@@ -6,13 +6,15 @@ import math
 Screen = (1000, 600)
 FPS = 60
 
-class Bullet(pg.sprite.Sprite):
-    def __init__(self, SCENE, x, y, speed):
+player_damage = 5
+professor_damage = 2
+
+class Bullet_mun(pg.sprite.Sprite):
+    def __init__(self, SCENE, x, y, speed, angle):
         pg.sprite.Sprite.__init__(self)
         self.radius = 6
         self.SCENE = SCENE
-        self.image = pg.transform.rotate(pg.image.load('.missile.png'))
-        self.destroy_image = pg.image.load('')
+        self.image = pg.image.load('.assets.dessertation_1.png')
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -27,10 +29,30 @@ class Bullet(pg.sprite.Sprite):
     		self.kill()
     	self.rect.center = (int(self.x), int(self.y))
 
-class ProfessorBullet(Bullet):
-	def __init__(self, SCENE, x, y, speed):
-		super().__init__(SCENE, x, y, speed)
-		self.image = pg.transform.rotate(pg.image.load('.missile.png'))
+class Bullet_e(pg.sprite.Sprite):
+    def __init__(self, SCENE, x, y, speed, angle):
+        pg.sprite.Sprite.__init__(self)
+        self.radius = 6
+        self.SCENE = SCENE
+        self.image = pg.image.load('.assets.dessertation_2.png')
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.xspeed = speed
+        self.yspeed = speed
+        self.rect.center = (int(self.x), int(self.y))
+
+    def update(self):
+    	if self.x < 0 or self.x > self.SCENE.WINDOW.get_size()[0]:
+    		self.kill()
+    	if self.y < 0 or self.y > self.SCENE.WINDOW.get_size()[1]:
+    		self.kill()
+    	self.rect.center = (int(self.x), int(self.y))
+
+class ProfessorBullet(Bullet_e):
+	def __init__(self, SCENE, x, y, speed, angle):
+		super().__init__(SCENE, x, y, speed, angle)
+		self.image = pg.image.load('.assets.grade_c.png')
 
 class Player(pg.sprite.Sprite):
 	def __init__(self, SCENE, x, y):
@@ -39,17 +61,15 @@ class Player(pg.sprite.Sprite):
 		self.radius = 20
 		self.angle = 90
 		self.original_image = pg.image.load('.player.png')
-		self.image = pg.transform.rotate(self.original_image, self.angle)
 		self.rect = self.image.get_rect()
 		self.x = x
 		self.y = y
 		self.xspeed = 0
-		self.yspeed = 0
 		self.last_launch = pg.time.get_ticks()
 		self.health = 50
 
-	def hit(self, damage):
-		self.health -= damage
+	def hit(self, player_damage):
+		self.health -= player_damage
 		if self.health < 0:
 			self.kill()
 			
@@ -82,7 +102,7 @@ class Player(pg.sprite.Sprite):
 		if self.x > self.SCENE.WINDOW.get_size()[0] - 16:
 			self.x = self.SCENE.WINDOW.get_size()[0] - 16
 
-		self.image = pg.transform.rotate(self.original_image, self.angle)
+		self.image = self.original_image
 		self.rect = self.image.get_rect()
 		self.rect.center = (int(self.x), int(self.y))
 
@@ -98,6 +118,60 @@ class Professor(pg.sprite.Sprite):
 		self.y = 300
 		self.last_launch = pg.time.get_ticks()
 		self.health = 100
+
+	def hit(self, professor_damage):
+		self.health -= professor_damage
+		if self.health < 0:
+			self.kill()
+
+	def launch(self):
+		if pg.time.get_ticks() - self.last_launch > 200: 
+			self. SCENE.group_enemybullets.add(ProfessorBullet(self.SCENE, self.x, self.y((self.xspeed**2+self.yspeed**2)**0.5+100,), self.angle))
+			self.last_launch = pg.time.get_ticks()
+
+	def update(self):
+		second_passed = self.SCENE.CLOCK.get_time()/1000
+		self.image = self.original_image
+		self.rect = self.image.get_rect()
+		self.rect.center = (500, 300)
+
+
+if __name__=="__main__":
+	pg.mixer.pre_init(buffer=128)
+	pg.init()
+	window = pg.display.set_mode(Screen)
+	clock = pg.time.Clock()
+	player = Player()
+	player_Group = pg.sprite.Group()
+	player_Group.add(Player)
+	professor_Group = pg.sprite.Group()
+	bulletGroup = pg.sprite.Group()
+
+	pg.mixer.set_num_channels(32)
+	SOUND_shoot = pg.mixer.Sound('bullet.wav')
+	pg.mixer.music.load('Gyoga.wav')
+	pg.mixer.music.play(loops=-1)
+	while True:
+		window.fill((255,255,255))
+		for event in pg.event.get():
+			if event.type == pg.QUIT:
+				pg.quit()
+				sys.exit()
+				break
+		
+
+		professor_Group.update()
+		player.update()
+		bulletGroup.update()
+		professor_Group.draw(window)
+		bulletGroup.draw(window)
+		player_Group.draw(window)
+		pg.display.flip()
+		clock.tick(FPS)
+
+		for bullet in ProfessorBullet:
+			if pg.sprite.collide_mask(player, bullet):
+				pg.event.post(pg)
 
 
 
