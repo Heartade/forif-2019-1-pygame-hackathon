@@ -8,10 +8,7 @@ class Bullet(pg.sprite.Sprite):
     def __init__(self, SCENE, x, y, speed, angle):
         pg.sprite.Sprite.__init__(self)
         self.SCENE = SCENE
-        if hakgua == 'mun':
-            self.image = pg.image.load('./assets/dissertation_1.png')
-        else:
-            self.image = pg.image.load('./assets/dissertation_2.png')
+        self.image = pg.image.load('./assets/dissertation_1.png')
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -30,6 +27,7 @@ class ProfessorBullet(Bullet):
     def __init__(self, SCENE, x, y, speed, angle):
         super().__init__(SCENE, x, y, speed, angle)
         self.image = pg.image.load('./assets/grade_c.png')
+        self.rect = pg.image.get_rect()
         self.speed = speed
         self.angle = angle
     def update(self):
