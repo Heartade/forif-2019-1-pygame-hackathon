@@ -1,3 +1,8 @@
 **/*.pyc
 *.pyc
 **/__pycache__/**
+scenes/__pycache__/__init__.cpython-37.pyc
+scenes/__pycache__/scene_gameclear.cpython-37.pyc
+scenes/__pycache__/scene_gameover.cpython-37.pyc
+scenes/__pycache__/scene_intro.cpython-37.pyc
+scenes/__pycache__/scene_teststage.cpython-37.pyc
