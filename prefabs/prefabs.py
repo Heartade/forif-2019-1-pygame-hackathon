@@ -3,8 +3,6 @@ import sys
 import random
 import math
 
-
-
 class FadeEffect(pg.sprite.Sprite):
   def __init__(self, SCENE, init_alpha, rect, image, life):
     pg.sprite.Sprite.__init__(self)
@@ -123,8 +121,6 @@ class Player(pg.sprite.Sprite):
     self.radius = 16
     self.angle = 0
     self.original_image = pg.image.load('./assets/avatar_grumpy.png')
-    self.image = self.original_image
-    self.mask = pg.mask.from_surface(self.image)
     self.original_trail_image = pg.image.load('./assets/player_effect.png') # 총알 이미지를 불러오고 회전합니다!
     self.explosion_image = pg.image.load('./assets/explosion1.png')
     self.rect = self.original_image.get_rect()
@@ -141,6 +137,17 @@ class Player(pg.sprite.Sprite):
       self.destroy()
   def destroy(self):
     self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
+    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
     self.SCENE.death_time = pg.time.get_ticks()
     pass
   def launch(self):
@@ -152,21 +159,31 @@ class Player(pg.sprite.Sprite):
     if self.health < 1000:
       self.health += second_passed*5
     if pg.key.get_focused:
-      #if pg.key.get_pressed()[pg.K_SPACE]:
-      #  self.launch()
+      if pg.key.get_pressed()[pg.K_SPACE]:
+        self.launch()
       if pg.key.get_pressed()[pg.K_a]:
-        self.xspeed = -100
-      elif pg.key.get_pressed()[pg.K_d]:
-        self.xspeed = 100
-      else: self.xspeed = 0
+        if self.xspeed > -150:
+          self.xspeed -= 300*second_passed
+      if pg.key.get_pressed()[pg.K_d]:
+        if self.xspeed < 150:
+          self.xspeed += 300*second_passed
       if pg.key.get_pressed()[pg.K_w]:
-        self.yspeed = -100
-      elif pg.key.get_pressed()[pg.K_s]:
-        self.yspeed = 100
-      else: self.yspeed = 0
+        if self.yspeed > -150:
+          self.yspeed -= 300*second_passed
+      if pg.key.get_pressed()[pg.K_s]:
+        if self.yspeed < 150:
+          self.yspeed += 300*second_passed
+    # 속도를 점점 느리게 바꿔 줍니다.
+    if self.xspeed > 0: self.xspeed -= 50*second_passed
+    elif self.xspeed < 0: self.xspeed += 50*second_passed
+    if self.yspeed > 0: self.yspeed -= 50*second_passed
+    elif self.yspeed < 0: self.yspeed += 50*second_passed
     # 좌표를 바꿔 줍니다.
     self.x += second_passed*self.xspeed
     self.y += second_passed*self.yspeed
+    if self.x == pg.mouse.get_pos()[0]: self.angle = 90
+    else: self.angle = math.degrees(math.atan((pg.mouse.get_pos()[1]-self.y)/(self.x - pg.mouse.get_pos()[0])))
+    if self.x > pg.mouse.get_pos()[0]: self.angle += 180
     if self.x < 16:
       self.x = 32-self.x
       self.xspeed = -self.xspeed
@@ -179,8 +196,11 @@ class Player(pg.sprite.Sprite):
     if self.y > self.SCENE.WINDOW.get_size()[1] - 16:
       self.y = 2*self.SCENE.WINDOW.get_size()[1] - 32 - self.y
       self.xspeed = -self.xspeed
+    self.image = pg.transform.rotate(self.original_image, 0)
     self.rect = self.image.get_rect()
+    self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
+    self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))
 
 class Enemy(pg.sprite.Sprite):
   def __init__(self, SCENE, x, y, target, patrol_point, angry):
@@ -189,13 +209,21 @@ class Enemy(pg.sprite.Sprite):
     self.radius = 16
     self.angle = 0
     self.target = target
-    self.original_image = pg.image.load('./assets/enemy.png')
+    char_selector = random.randint(0,2)
+    if char_selector == 0:
+      self.original_image = pg.image.load('./assets/avatar_professor.png')
+    elif char_selector == 1:
+      self.original_image = pg.image.load('./assets/avatar_religious_girl.png')
+    elif char_selector == 2:
+      self.original_image = pg.image.load('./assets/avatar_religious_girl_2.png')
     self.original_trail_image = pg.image.load('./assets/enemy_effect.png')
     self.explosion_image = pg.image.load('./assets/explosion2.png')
     self.image = pg.transform.rotate(self.original_image, self.angle)
     self.rect = self.image.get_rect()
     self.x = x
     self.y = y
+    self.patrol_check = pg.time.get_ticks() # 마지막으로 패트롤 방향을 결정한 시각
+    self.timing = 0 # 패트롤 방향이 변경되기까지의 시간
     self.xspeed = 0
     self.yspeed = 0
     self.last_launch = pg.time.get_ticks()
@@ -218,10 +246,6 @@ class Enemy(pg.sprite.Sprite):
     self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
     self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
     self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random(),20,random.random()))
     pass
   def launch(self):
     if pg.time.get_ticks() - self.last_launch > 200:
@@ -229,54 +253,41 @@ class Enemy(pg.sprite.Sprite):
       self.last_launch = pg.time.get_ticks()
   def update(self):
     second_passed = self.SCENE.CLOCK.get_time()/1000
-    if (math.sqrt((self.target.x - self.x) ** 2 + (self.target.y - self.y) ** 2) < 200):
+    second_pass = int(5*abs(math.cos(random.random()*math.pi)))
+    if (math.sqrt((self.target.x - self.x) ** 2 + (self.target.y - self.y) ** 2) < 128):
       self.angry = 1
     else:
       self.angry = 0
 
-    if self.angry == 0:
-      if self.x > self.patrol_point[0]:
-        if self.xspeed > -100:
-          self.xspeed -= 50*second_passed
-      if self.x < self.patrol_point[0]:
-        if self.xspeed < 100:
-          self.xspeed += 50*second_passed
-      if self.y > self.patrol_point[1]:
-        if self.yspeed > -100:
-          self.yspeed -= 50*second_passed
-      if self.y < self.patrol_point[1]:
-        if self.yspeed < 100:
-          self.yspeed += 50*second_passed
-    elif self.angry == 1:
-      if self.x > self.target.x:
-        if self.xspeed > -100:
-          self.xspeed -= 50*second_passed
+    if self.angry == 1:
+      if self.x >= self.target.x:
+          self.xspeed = -60
       if self.x < self.target.x:
-        if self.xspeed < 100:
-          self.xspeed += 50*second_passed
-      if self.y > self.target.y:
-        if self.yspeed > -100:
-          self.yspeed -= 50*second_passed
+          self.xspeed = 60
+      if self.y >= self.target.y:
+          self.yspeed = -60
       if self.y < self.target.y:
-        if self.yspeed < 100:
-          self.yspeed += 50*second_passed
+          self.yspeed = 60
+    elif pg.time.get_ticks() > self.patrol_check + self.timing*1000:
+      self.patrol_check = pg.time.get_ticks()
+      self.timing = random.random()
+      if self.x >= self.patrol_point[0]:
+          if random.random()<0.7: self.xspeed = -60
+          else: self.xspeed = 0
+      if self.x < self.patrol_point[0]:
+          if random.random()<0.7: self.xspeed = 60
+          else: self.xspeed = 0
+      if self.y >= self.patrol_point[1]:
+          if random.random()<0.7: self.yspeed = -60
+          else: self.yspeed = 0
+      if self.y < self.patrol_point[1]:
+          if random.random()<0.7: self.yspeed = 60
+          else: self.yspeed = 0
 
-    # 속도를 점점 느리게 바꿔 줍니다.
-    if self.xspeed > 0: self.xspeed -= 50*second_passed
-    elif self.xspeed < 0: self.xspeed += 50*second_passed
-    if self.yspeed > 0: self.yspeed -= 50*second_passed
-    elif self.yspeed < 0: self.yspeed += 50*second_passed
+
     # 좌표를 바꿔 줍니다.
-    self.x += second_passed*self.xspeed
-    self.y += second_passed*self.yspeed
-    if self.xspeed == 0: self.angle = 90
-    else: self.angle = math.degrees(math.atan(-self.yspeed/self.xspeed))
-    if self.xspeed < 0: self.angle += 180
-
-    if self.x == self.target.x: self.target_angle = 90
-    else: self.target_angle = math.degrees(math.atan((self.target.y - self.y)/(self.x - self.target.x)))
-    if self.x > self.target.x: self.target_angle += 180
-    if abs(self.target_angle-self.angle) < 10 or abs(self.target_angle-self.angle) > 350: self.launch()
+    self.x += self.xspeed*second_passed
+    self.y += self.yspeed*second_passed
     if self.x < 16:
       self.x = 32-self.x
       self.xspeed = -self.xspeed
@@ -289,8 +300,8 @@ class Enemy(pg.sprite.Sprite):
     if self.y > self.SCENE.WINDOW.get_size()[1] - 16:
       self.y = 2*self.SCENE.WINDOW.get_size()[1] - 32 - self.y
       self.xspeed = -self.xspeed
-    self.image = pg.transform.rotate(self.original_image, self.angle)
-    self.rect = self.image.get_rect()
-    self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
+
+    self.rect = self.original_image.get_rect()
+    #self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
-    self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))
+    #self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))
