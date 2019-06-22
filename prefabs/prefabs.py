@@ -2,11 +2,6 @@ import pygame as pg
 import sys
 import random
 import math
-<<<<<<< HEAD
-
-
-=======
->>>>>>> f367c89c5b2b297e1b8e9270ff5bb87c7f83a24c
 
 class FadeEffect(pg.sprite.Sprite):
   def __init__(self, SCENE, init_alpha, rect, image, life):
@@ -264,34 +259,6 @@ class Enemy(pg.sprite.Sprite):
     else:
       self.angry = 0
 
-<<<<<<< HEAD
-    if self.angry == 0:
-      if self.x > self.patrol_point[0]:
-        if self.xspeed > -100:
-          self.xspeed -= 200*second_passed
-      if self.x < self.patrol_point[0]:
-        if self.xspeed < 100:
-          self.xspeed += 200*second_passed
-      if self.y > self.patrol_point[1]:
-        if self.yspeed > -100:
-          self.yspeed -= 200*second_passed
-      if self.y < self.patrol_point[1]:
-        if self.yspeed < 100:
-          self.yspeed += 200*second_passed
-    elif self.angry == 1:
-      if self.x > self.target.x:
-        if self.xspeed > -100:
-          self.xspeed -= 200*second_passed
-      if self.x < self.target.x:
-        if self.xspeed < 100:
-          self.xspeed += 200*second_passed
-      if self.y > self.target.y:
-        if self.yspeed > -100:
-          self.yspeed -= 200*second_passed
-      if self.y < self.target.y:
-        if self.yspeed < 100:
-          self.yspeed += 200*second_passed
-=======
     if self.angry == 1:
       if self.x >= self.target.x:
           self.xspeed = -60
@@ -316,7 +283,6 @@ class Enemy(pg.sprite.Sprite):
       if self.y < self.patrol_point[1]:
           if random.random()<0.7: self.yspeed = 60
           else: self.yspeed = 0
->>>>>>> f367c89c5b2b297e1b8e9270ff5bb87c7f83a24c
 
 
     # 좌표를 바꿔 줍니다.
@@ -334,12 +300,8 @@ class Enemy(pg.sprite.Sprite):
     if self.y > self.SCENE.WINDOW.get_size()[1] - 16:
       self.y = 2*self.SCENE.WINDOW.get_size()[1] - 32 - self.y
       self.xspeed = -self.xspeed
-<<<<<<< HEAD
+
     self.rect = self.original_image.get_rect()
     #self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
     #self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))
-=======
-    self.rect = self.image.get_rect()
-    self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
->>>>>>> f367c89c5b2b297e1b8e9270ff5bb87c7f83a24c
