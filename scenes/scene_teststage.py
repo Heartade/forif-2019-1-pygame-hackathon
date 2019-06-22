@@ -37,6 +37,7 @@ class Bar(pg.sprite.Sprite):
       self.image.blit(self.animation_images[i],image_rect,special_flags = pg.BLEND_RGBA_MULT)
       image_rect.x -= image_rect.width
       self.image.blit(self.animation_images[i],image_rect,special_flags = pg.BLEND_RGBA_MULT)
+
 class Background(pg.sprite.Sprite):
   def __init__(self, SCENE):
     pg.sprite.Sprite.__init__(self)
@@ -45,6 +46,17 @@ class Background(pg.sprite.Sprite):
     self.rect = self.image.get_rect()
     self.rect.x = 70
     self.rect.y = -150
+
+class BCGMask(pg.sprite.Sprite):
+  def __init__(self, SCENE, IMAGE, NAME):
+    pg.sprite.Sprite.__init__(self)
+    self.SCENE = SCENE
+    self.image = pg.image.load(IMAGE)
+    self.mask = pg.mask.from_surface(self.image)
+    self.rect = self.image.get_rect()
+    self.rect.x = 70
+    self.rect.y = -150
+    self.name = NAME
 
 class Building(pg.sprite.Sprite):
   def __init__(self, SCENE):
@@ -69,6 +81,9 @@ class Scene_TestStage(scene.Scene):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
     self.score = 0
     self.game_font = pg.font.Font('./assets/NotoSans-BoldItalic.ttf',24)
+    self.group_buildings = pg.sprite.Group()
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_edu.png','Education Building'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_library.png','Library'))
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
@@ -77,16 +92,14 @@ class Scene_TestStage(scene.Scene):
     self.background = Background(self)
     self.group_background = pg.sprite.Group()
     self.group_background.add(self.background)
-    self.building = Building(self)
-    self.group_building = pg.sprite.Group()
-    self.group_building.add(self.building)
     self.group_flag = pg.sprite.Group()
-    self.groups.append(self.group_building)
+    self.groups.append(self.group_buildings)
     self.groups.append(self.group_background)
     self.groups.append(self.group_enemy)
     self.groups.append(self.group_enemybullets)
     self.groups.append(self.group_playerbullets)
     self.groups.append(self.group_player)
+    self.groups.append(self.group_flag)
     self.groups.append(self.group_overlay)
     self.player = prefabs.Player(self,180,240)
     bar_image = pg.image.load('./assets/bar.png')
@@ -115,8 +128,9 @@ class Scene_TestStage(scene.Scene):
     self.death_time = -1
     self.spawn_enemy()
   def spawn_enemy(self):
-    self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
-      self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
+    print('An enemy should have spawned, but this part of the code is omitted as of now.')
+    #self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
+    #  self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
   def loop(self):
     self.bar_health.update_value(1000-self.player.health)
     self.bar_time.update_value(pg.time.get_ticks()-self.finish_timer)
@@ -124,15 +138,13 @@ class Scene_TestStage(scene.Scene):
     if pg.time.get_ticks() - self.enemy_timer > 20000:
       self.enemy_timer = pg.time.get_ticks()
       self.spawn_enemy()
-    collision = pg.sprite.groupcollide(self.group_player,self.group_enemybullets,False,True)
-    for player in collision:
-      for bullet in collision[player]:
-        bullet.destroy()
-        self.player.hit(10)
-      for building in collision[player]:
-        flag = Flag(self, self.player.x, self.player.y)
-        self.group_flag.add(flag)
-        self.groups.append(self.group_flag)
+    collision = pg.sprite.groupcollide(self.group_player,self.group_buildings,False,False,pg.sprite.collide_mask)
+    #for player in collision:
+      #for building in collision[player]:
+        #print('collision...'+building.name)
+        #flag = Flag(self, self.player.x, self.player.y)
+        #self.group_flag.add(flag)
+        #self.groups.append(self.group_flag)
     collision = pg.sprite.groupcollide(self.group_enemy,self.group_playerbullets,False,True)
     for enemy in collision:
       for bullet in collision[enemy]:
