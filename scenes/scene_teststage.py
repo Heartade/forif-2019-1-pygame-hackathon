@@ -6,6 +6,8 @@ import wingbase.scene as scene
 import prefabs.prefabs as prefabs
 import random
 
+patrol_points = [[100, 100], [200,100], [300,100], [400,100], [500,100]]
+
 class Bar(pg.sprite.Sprite):
   def __init__(self, SCENE, rect, image, edge, overlay, animation, speed, max_val):
     pg.sprite.Sprite.__init__(self)
@@ -34,6 +36,14 @@ class Bar(pg.sprite.Sprite):
       self.image.blit(self.animation_images[i],image_rect,special_flags = pg.BLEND_RGBA_MULT)
       image_rect.x -= image_rect.width
       self.image.blit(self.animation_images[i],image_rect,special_flags = pg.BLEND_RGBA_MULT)
+class Background(pg.sprite.Sprite):
+  def __init__(self, SCENE):
+    pg.sprite.Sprite.__init__(self)
+    self.SCENE = SCENE
+    self.image = pg.image.load('./assets/background.png')
+    self.rect = self.image.get_rect()
+    self.rect.x = -50
+    self.rect.y = -200
 
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
@@ -45,6 +55,10 @@ class Scene_TestStage(scene.Scene):
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
     self.group_player = pg.sprite.Group()
     self.group_overlay = pg.sprite.Group()
+    self.background = Background(self)
+    self.group_background = pg.sprite.Group()
+    self.group_background.add(self.background)
+    self.groups.append(self.group_background)
     self.groups.append(self.group_enemy)
     self.groups.append(self.group_enemybullets)
     self.groups.append(self.group_playerbullets)
@@ -77,7 +91,8 @@ class Scene_TestStage(scene.Scene):
     self.death_time = -1
     self.spawn_enemy()
   def spawn_enemy(self):
-    self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),self.WINDOW.get_size()[1],self.player))
+    self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
+      self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)]))
   def loop(self):
     self.bar_health.update_value(1000-self.player.health)
     self.bar_time.update_value(pg.time.get_ticks()-self.finish_timer)
@@ -116,7 +131,7 @@ class Scene_TestStage(scene.Scene):
 if __name__ == "__main__":
   pg.init()
   pg.font.init()
-  SCREEN = (360, 480)
+  SCREEN = (960, 720)
   WINDOW = pg.display.set_mode(SCREEN)
   FPS = 60
   CLOCK = pg.time.Clock()

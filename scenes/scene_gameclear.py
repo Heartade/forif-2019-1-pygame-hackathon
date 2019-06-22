@@ -42,7 +42,7 @@ class Scene_GameClear(scene.Scene):
 
 if __name__ == "__main__":
   pg.init()
-  SCREEN = (360, 480)
+  SCREEN = (960, 720)
   WINDOW = pg.display.set_mode(SCREEN)
   FPS = 60
   CLOCK = pg.time.Clock()
