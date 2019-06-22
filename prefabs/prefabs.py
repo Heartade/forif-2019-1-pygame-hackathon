@@ -211,7 +211,13 @@ class Enemy(pg.sprite.Sprite):
     self.radius = 16
     self.angle = 0
     self.target = target
-    self.original_image = pg.image.load('./assets/enemy.png')
+    char_selector = random.randint(0,2)
+    if char_selector == 0:
+      self.original_image = pg.image.load('./assets/avatar_professor.png')
+    elif char_selector ==1:
+      self.original_image = pg.image.load('./assets/avatar_religious_girl.png')
+    elif char_selector ==2:
+      self.original_image = pg.image.load('./assets/avatar_religious_girl_2.png')
     self.original_trail_image = pg.image.load('./assets/enemy_effect.png')
     self.explosion_image = pg.image.load('./assets/explosion2.png')
     self.image = pg.transform.rotate(self.original_image, self.angle)
