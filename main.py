@@ -12,6 +12,7 @@ import scenes.scene_gameclear as scene_gameclear
 
 if __name__ == "__main__":
   pg.init()
+  pg.mixer.init()
   pg.font.init()
 
   SCREEN = (1080, 720)
