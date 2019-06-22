@@ -9,6 +9,7 @@ import scenes.scene_teststage as scene_teststage
 import scenes.scene_intro as scene_intro
 import scenes.scene_gameover as scene_gameover
 import scenes.scene_gameclear as scene_gameclear
+import scenes.scene_lastboss as scene_lastboss
 
 if __name__ == "__main__":
   pg.init()
@@ -24,6 +25,7 @@ if __name__ == "__main__":
   SCENE_TIME = scene_teststage.Scene_TestStage(WINDOW, CLOCK, 60, [])
   SCENE_GAMEOVER = scene_gameover.Scene_Gameover(WINDOW, CLOCK, 60, [])
   SCENE_TIMECLEAR = scene_gameclear.Scene_GameClear(WINDOW, CLOCK, 60, [])
+  SCENE_LASTBOSS = scene_lastboss.Scene_LastBoss(WINDOW, CLOCK, 60, [])
   SCENE = SCENE_MAINMENU
   while True:
     SCENE.loop_begin() # begin loop
@@ -39,11 +41,17 @@ if __name__ == "__main__":
         SCENE_GAMEOVER = scene_gameover.Scene_Gameover(WINDOW,CLOCK,60,[])
         SCENE = SCENE_GAMEOVER
       elif SCENE == SCENE_TIME and next_scene == 1:
-        SCENE_GAMECLEAR = scene_gameclear.Scene_GameClear(WINDOW,CLOCK,60,[],SCENE.score)
-        SCENE = SCENE_GAMECLEAR
+        SCENE_LASTBOSS = scene_lastboss.Scene_LastBoss(WINDOW,CLOCK,60,[])
+        SCENE = SCENE_LASTBOSS
       elif SCENE == SCENE_GAMEOVER and next_scene == 1:
         SCENE_MAINMENU = scene_main.Scene_Main(WINDOW,CLOCK,60,[])
         SCENE = SCENE_MAINMENU
+      elif SCENE == SCENE_LASTBOSS and next_scene == 1:
+        SCENE_GAMECLEAR = scene_gameclear.Scene_GameClear(WINDOW,CLOCK,60,[])
+        SCENE = SCENE_GAMECLEAR
+      elif SCENE == SCENE_LASTBOSS and next_scene == 2:
+        SCENE_GAMEOVER = scene_gameover.Scene_GameOver(WINDOW,CLOCK,60,[])
+        SCENE = SCENE_GAMEOVER
       elif SCENE == SCENE_GAMECLEAR and next_scene == 1:
         SCENE_MAINMENU = scene_main.Scene_Main(WINDOW,CLOCK,60,[])
         SCENE = SCENE_MAINMENU

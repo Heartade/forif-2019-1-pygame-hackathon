@@ -75,8 +75,8 @@ class Bullet(pg.sprite.Sprite): # 우선 총알 오브젝트를 만들고, 그 �
     pg.sprite.Sprite.__init__(self) # 이 줄은 필수!
     self.radius = 6
     self.SCENE = SCENE
-    self.image = pg.transform.rotate(pg.image.load('./assets/bullet.png'), angle) # 총알 이미지를 불러오고 회전합니다!
-    self.trail_image = pg.transform.rotate(pg.image.load('./assets/bullet_white.png'), angle) # 총알 이미지를 불러오고 회전합니다!
+    self.image = pg.transform.rotate(pg.transform.scale(pg.image.load('./assets/drink_soju.png'), (64,64)),angle) # 총알 이미지를 불러오고 회전합니다!
+    self.trail_image = pg.transform.rotate(pg.image.load('./assets/drink_soju.png'), angle) # 총알 이미지를 불러오고 회전합니다!
     self.destroy_image = pg.image.load('./assets/explosion1.png')
     self.rect = self.image.get_rect() # rect는 게임 오브젝트의 크기와 위치를 담습니다!
     # 위에서는 이미지에 맞춰 rect를 설정하고 있습니다.
@@ -102,15 +102,14 @@ class Bullet(pg.sprite.Sprite): # 우선 총알 오브젝트를 만들고, 그 �
     self.x += second_passed*self.xspeed
     self.y += second_passed*self.yspeed
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
-    self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))
   def destroy(self):
     self.SCENE.group_overlay.add(DestroyEffect(self.SCENE, 128, self.rect, self.destroy_image, 1))
 
 class EnemyBullet(Bullet):
   def __init__(self, SCENE, x, y, speed, angle): # 인자 다섯 개를 받는 생성자예요.
     super().__init__(SCENE, x, y, speed, angle)
-    self.image = pg.transform.rotate(pg.image.load('./assets/enemybullet.png'), angle) # 총알 이미지를 불러오고 회전합니다!
-    self.trail_image = pg.transform.rotate(pg.image.load('./assets/bullet_white.png'), angle) # 총알 이미지를 불러오고 회전합니다!
+    self.image = pg.transform.rotate(pg.transform.scale(pg.image.load('./assets/assignment.png'), (64,64)),angle) # 총알 이미지를 불러오고 회전합니다!
+    self.trail_image = pg.transform.rotate(pg.image.load('./assets/assignment.png'), angle) # 총알 이미지를 불러오고 회전합니다!
     self.destroy_image = pg.image.load('./assets/explosion2.png')
 
 
@@ -236,7 +235,7 @@ class Enemy(pg.sprite.Sprite):
     pass
   def launch(self):
     if pg.time.get_ticks() - self.last_launch > 200:
-      #self.SCENE.group_enemybullets.add(EnemyBullet(self.SCENE,self.x,self.y,((self.xspeed**2+self.yspeed**2)**0.5+100,),self.angle))
+      self.SCENE.group_enemybullets.add(EnemyBullet(self.SCENE,self.x,self.y,((self.xspeed**2+self.yspeed**2)**0.5+100,),self.angle))
       self.last_launch = pg.time.get_ticks()
   def update(self):
     second_passed = self.SCENE.CLOCK.get_time()/1000

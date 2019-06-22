@@ -8,10 +8,7 @@ class Bullet(pg.sprite.Sprite):
     def __init__(self, SCENE, x, y, speed, angle):
         pg.sprite.Sprite.__init__(self)
         self.SCENE = SCENE
-        if hakgua == 'mun':
-            self.image = pg.image.load('./assets/dissertation_1.png')
-        else:
-            self.image = pg.image.load('./assets/dissertation_2.png')
+        self.image = pg.transform.scale(pg.image.load('./assets/dissertation_1.png'),(64,64))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -30,11 +27,11 @@ class ProfessorBullet(Bullet):
     def __init__(self, SCENE, x, y, speed, angle):
         super().__init__(SCENE, x, y, speed, angle)
         if random.randint(1,3) == 1:
-            self.image = pg.image.load('./assets/grade_c.png')
+            self.image = pg.transform.scale(pg.image.load('./assets/grade_c.png'),(64,64))
         elif random.randint(1, 3) == 2:
-            self.image = pg.image.load('./assets/grade_d.png')
+            self.image = pg.transform.scale(pg.image.load('./assets/grade_d.png'),(64,64))
         else:
-            self.image = pg.image.load('./assets/grade_f.png')
+            self.image = pg.transform.scale(pg.image.load('./assets/grade_f.png'),(64,64))
         self.speed = speed
         self.angle = angle
     def update(self):

@@ -54,6 +54,10 @@ class Scene_LastBoss(scene.Scene):
                                 self.professor.health -= 1
                                 if self.professor.health < 0: self.professor.kill()
                 self.health_bars()
+                if self.professor.health < 0:
+                        return 1
+                if self.player.health < 0:
+                        return 2
                 return 0
                 
 if __name__=="__main__":
