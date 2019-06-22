@@ -73,6 +73,7 @@ class Flag(pg.sprite.Sprite):
     self.flag.x = x
     self.flag.y = y
 
+#class Coffee(pg.sprite.Sprite)
 
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
