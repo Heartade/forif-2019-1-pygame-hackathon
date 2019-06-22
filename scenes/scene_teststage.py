@@ -92,7 +92,7 @@ class Scene_TestStage(scene.Scene):
     self.spawn_enemy()
   def spawn_enemy(self):
     self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
-      self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)]))
+      self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
   def loop(self):
     self.bar_health.update_value(1000-self.player.health)
     self.bar_time.update_value(pg.time.get_ticks()-self.finish_timer)
