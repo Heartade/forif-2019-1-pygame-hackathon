@@ -7,7 +7,7 @@ import prefabs.prefabs as prefabs
 import random
 
 building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-patrol_points = [[100, 100], [200,100], [300,100], [400,100], [500,100]]
+patrol_points = [ [250,200], [520,70], [670,80], [750,350], [620, 450]]
 
 class Bar(pg.sprite.Sprite):
   def __init__(self, SCENE, rect, image, edge, overlay, animation, speed, max_val):
@@ -128,9 +128,8 @@ class Scene_TestStage(scene.Scene):
     self.death_time = -1
     self.spawn_enemy()
   def spawn_enemy(self):
-    print('An enemy should have spawned, but this part of the code is omitted as of now.')
-    #self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
-    #  self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
+    self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
+      self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
   def loop(self):
     self.bar_health.update_value(1000-self.player.health)
     self.bar_time.update_value(pg.time.get_ticks()-self.finish_timer)
