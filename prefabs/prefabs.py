@@ -2,7 +2,8 @@ import pygame as pg
 import sys
 import random
 import math
-import numpy as np
+
+
 
 class FadeEffect(pg.sprite.Sprite):
   def __init__(self, SCENE, init_alpha, rect, image, life):
@@ -121,11 +122,10 @@ class Player(pg.sprite.Sprite):
     self.SCENE = SCENE
     self.radius = 16
     self.angle = 0
-    self.original_image = pg.image.load('./assets/player.png')
+    self.original_image = pg.image.load('./assets/avatar_grumpy.png')
     self.original_trail_image = pg.image.load('./assets/player_effect.png') # 총알 이미지를 불러오고 회전합니다!
     self.explosion_image = pg.image.load('./assets/explosion1.png')
-    self.image = pg.transform.rotate(self.original_image, self.angle)
-    self.rect = self.image.get_rect()
+    self.rect = self.original_image.get_rect()
     self.x = x
     self.y = y
     self.xspeed = 0
@@ -198,7 +198,7 @@ class Player(pg.sprite.Sprite):
     if self.y > self.SCENE.WINDOW.get_size()[1] - 16:
       self.y = 2*self.SCENE.WINDOW.get_size()[1] - 32 - self.y
       self.xspeed = -self.xspeed
-    self.image = pg.transform.rotate(self.original_image, self.angle)
+    self.image = pg.transform.rotate(self.original_image, 0)
     self.rect = self.image.get_rect()
     self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
@@ -258,30 +258,30 @@ class Enemy(pg.sprite.Sprite):
 
     if self.angry == 0:
       if self.x > self.patrol_point[0]:
-        if self.xspeed > -300:
-          self.xspeed -= 100*second_passed
+        if self.xspeed > -100:
+          self.xspeed -= 50*second_passed
       if self.x < self.patrol_point[0]:
-        if self.xspeed < 300:
-          self.xspeed += 100*second_passed
+        if self.xspeed < 100:
+          self.xspeed += 50*second_passed
       if self.y > self.patrol_point[1]:
-        if self.yspeed > -300:
-          self.yspeed -= 100*second_passed
+        if self.yspeed > -100:
+          self.yspeed -= 50*second_passed
       if self.y < self.patrol_point[1]:
-        if self.yspeed < 300:
-          self.yspeed += 100*second_passed
+        if self.yspeed < 100:
+          self.yspeed += 50*second_passed
     elif self.angry == 1:
       if self.x > self.target.x:
-        if self.xspeed > -300:
-          self.xspeed -= 100*second_passed
+        if self.xspeed > -100:
+          self.xspeed -= 50*second_passed
       if self.x < self.target.x:
-        if self.xspeed < 300:
-          self.xspeed += 100*second_passed
+        if self.xspeed < 100:
+          self.xspeed += 50*second_passed
       if self.y > self.target.y:
-        if self.yspeed > -300:
-          self.yspeed -= 100*second_passed
+        if self.yspeed > -100:
+          self.yspeed -= 50*second_passed
       if self.y < self.target.y:
-        if self.yspeed < 300:
-          self.yspeed += 100*second_passed
+        if self.yspeed < 100:
+          self.yspeed += 50*second_passed
 
     # 속도를 점점 느리게 바꿔 줍니다.
     if self.xspeed > 0: self.xspeed -= 50*second_passed

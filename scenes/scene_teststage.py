@@ -6,6 +6,7 @@ import wingbase.scene as scene
 import prefabs.prefabs as prefabs
 import random
 
+building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 patrol_points = [[100, 100], [200,100], [300,100], [400,100], [500,100]]
 
 class Bar(pg.sprite.Sprite):
@@ -40,10 +41,28 @@ class Background(pg.sprite.Sprite):
   def __init__(self, SCENE):
     pg.sprite.Sprite.__init__(self)
     self.SCENE = SCENE
-    self.image = pg.image.load('./assets/background.png')
+    self.image = pg.image.load('./assets/background_ing.png')
     self.rect = self.image.get_rect()
-    self.rect.x = -50
-    self.rect.y = -200
+    self.rect.x = 70
+    self.rect.y = -150
+
+class Building(pg.sprite.Sprite):
+  def __init__(self, SCENE):
+    pg.sprite.Sprite.__init__(self)
+    self.SCENE = SCENE
+    self.image = pg.image.load('./assets/building.png')
+    self.rect = self.image.get_rect()
+    self.rect.x = 70
+    self.rect.y = -150
+
+class Flag(pg.sprite.Sprite):
+  def __init__(self,SCENE,x,y):
+    pg.sprite.Sprite.__init__(self)
+    self.SCENE = SCENE
+    self.flag_image = pg.image.load('./assets/drink_coffee.png')
+    self.flag = self.flag_image.get_rect()
+    self.flag.x = x
+    self.flag.y = y
 
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
@@ -58,6 +77,11 @@ class Scene_TestStage(scene.Scene):
     self.background = Background(self)
     self.group_background = pg.sprite.Group()
     self.group_background.add(self.background)
+    self.building = Building(self)
+    self.group_building = pg.sprite.Group()
+    self.group_building.add(self.building)
+    self.group_flag = pg.sprite.Group()
+    self.groups.append(self.group_building)
     self.groups.append(self.group_background)
     self.groups.append(self.group_enemy)
     self.groups.append(self.group_enemybullets)
@@ -105,6 +129,10 @@ class Scene_TestStage(scene.Scene):
       for bullet in collision[player]:
         bullet.destroy()
         self.player.hit(10)
+      for building in collision[player]:
+        flag = Flag(self, self.player.x, self.player.y)
+        self.group_flag.add(flag)
+        self.groups.append(self.group_flag)
     collision = pg.sprite.groupcollide(self.group_enemy,self.group_playerbullets,False,True)
     for enemy in collision:
       for bullet in collision[enemy]:
@@ -131,7 +159,7 @@ class Scene_TestStage(scene.Scene):
 if __name__ == "__main__":
   pg.init()
   pg.font.init()
-  SCREEN = (960, 720)
+  SCREEN = (1080, 720)
   WINDOW = pg.display.set_mode(SCREEN)
   FPS = 60
   CLOCK = pg.time.Clock()
