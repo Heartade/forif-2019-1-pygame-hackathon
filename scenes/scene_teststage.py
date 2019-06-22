@@ -1,6 +1,7 @@
 import prefabs.prefabs as prefabs
 import pygame as pg
 import wingbase.scene as scene
+import random
 
 building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 patrol_points = [ [250,200], [520,70], [670,80], [750,350], [620, 450]]
@@ -76,6 +77,7 @@ class Flag(pg.sprite.Sprite):
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
+
     self.score = 0
     self.game_font = pg.font.Font('./assets/NotoSans-BoldItalic.ttf',24)
     self.group_buildings = pg.sprite.Group()
@@ -124,6 +126,10 @@ class Scene_TestStage(scene.Scene):
     self.finish_timer = pg.time.get_ticks()
     self.death_time = -1
     self.spawn_enemy()
+
+    pg.mixer.music.load('./assets/sound/HYU_schoolsong_mr_16bit.wav')
+    pg.mixer.music.play(-1)
+
   def spawn_enemy(self):
     self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
       self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
@@ -172,6 +178,7 @@ if __name__ == "__main__":
   FPS = 60
   CLOCK = pg.time.Clock()
   SCENE = Scene_TestStage(WINDOW, CLOCK, 60, [])
+
   while True:
     SCENE.loop_begin()
     SCENE.loop()

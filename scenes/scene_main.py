@@ -45,6 +45,8 @@ if __name__ == "__main__":
   FPS = 60
   CLOCK = pg.time.Clock()
   SCENE = Scene_Main(WINDOW, CLOCK, 60, [])
+
+
   while True:
     SCENE.loop_begin()
     SCENE.loop() # change scene according to loop return
