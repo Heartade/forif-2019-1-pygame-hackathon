@@ -2,6 +2,18 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "C:\\Users\\heartade\\OneDrive\\문서\\Lecture\\OOPArts LECTURE\\EXGAME\\assets"
+		},
+		{
+			"path": "C:\\Users\\heartade\\OneDrive\\문서\\Lecture\\OOPArts LECTURE\\EXGAME\\prefabs"
+		},
+		{
+			"path": "C:\\Users\\heartade\\OneDrive\\문서\\Lecture\\OOPArts LECTURE\\EXGAME\\scenes"
+		},
+		{
+			"path": "C:\\Users\\heartade\\OneDrive\\문서\\Lecture\\OOPArts LECTURE\\EXGAME\\wingbase"
 		}
 	],
 	"settings": {}
