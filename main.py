@@ -3,7 +3,6 @@ import wingbase.colors as colors
 import sys
 import wingbase.ui as ui
 
-
 import wingbase.scene as scene
 import scenes.scene_main as scene_main
 import scenes.scene_teststage as scene_teststage
@@ -24,7 +23,7 @@ if __name__ == "__main__":
   SCENE_TIME = scene_teststage.Scene_TestStage(WINDOW, CLOCK, 60, [])
   SCENE_GAMEOVER = scene_gameover.Scene_Gameover(WINDOW, CLOCK, 60, [])
   SCENE_TIMECLEAR = scene_gameclear.Scene_GameClear(WINDOW, CLOCK, 60, [])
-  SCENE = SCENE_TIME
+  SCENE = SCENE_MAINMENU
   while True:
     SCENE.loop_begin() # begin loop
     next_scene = SCENE.loop()

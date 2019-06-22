@@ -162,17 +162,17 @@ class Player(pg.sprite.Sprite):
       if pg.key.get_pressed()[pg.K_SPACE]:
         self.launch()
       if pg.key.get_pressed()[pg.K_a]:
-        if self.xspeed > -150:
-          self.xspeed -= 300*second_passed
-      if pg.key.get_pressed()[pg.K_d]:
-        if self.xspeed < 150:
-          self.xspeed += 300*second_passed
+        self.xspeed = -100
+      elif pg.key.get_pressed()[pg.K_d]:
+        self.xspeed = 100
+      else :
+        self.xspeed = 0
       if pg.key.get_pressed()[pg.K_w]:
-        if self.yspeed > -150:
-          self.yspeed -= 300*second_passed
-      if pg.key.get_pressed()[pg.K_s]:
-        if self.yspeed < 150:
-          self.yspeed += 300*second_passed
+        self.yspeed = -100
+      elif pg.key.get_pressed()[pg.K_s]:
+        self.yspeed = 100
+      else :
+        self.yspeed = 0
     # 속도를 점점 느리게 바꿔 줍니다.
     if self.xspeed > 0: self.xspeed -= 50*second_passed
     elif self.xspeed < 0: self.xspeed += 50*second_passed

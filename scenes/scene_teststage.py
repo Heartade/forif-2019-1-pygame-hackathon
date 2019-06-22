@@ -6,7 +6,9 @@ import wingbase.scene as scene
 import prefabs.prefabs as prefabs
 import random
 
+#왼쪽 위 부터 넘버링
 building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+building_pos = [ [440, 265],[520,300], [] ]
 patrol_points = [ [250,200], [520,70], [670,80], [750,350], [620, 450]]
 
 class Bar(pg.sprite.Sprite):
@@ -71,10 +73,10 @@ class Flag(pg.sprite.Sprite):
   def __init__(self,SCENE,x,y):
     pg.sprite.Sprite.__init__(self)
     self.SCENE = SCENE
-    self.flag_image = pg.image.load('./assets/drink_coffee.png')
-    self.flag = self.flag_image.get_rect()
-    self.flag.x = x
-    self.flag.y = y
+    self.image = pg.image.load('./assets/drink_coffee.png')
+    self.rect = self.image.get_rect()
+    self.rect.x = x
+    self.rect.y = y
 
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
@@ -138,8 +140,14 @@ class Scene_TestStage(scene.Scene):
     self.death_time = -1
     self.spawn_enemy()
   def spawn_enemy(self):
-    self.group_enemy.add(prefabs.Enemy(self,random.randint(0,self.WINDOW.get_size()[0]),
-      self.WINDOW.get_size()[1],self.player,patrol_points[random.randint(0,4)],0))
+    char_selector = random.randint(0,1)
+    pos = [0,0]
+    if char_selector == 0:
+      pos = [505, 500]
+    elif char_selector == 1:
+      pos = [790,130]
+    self.group_enemy.add(prefabs.Enemy(self,pos[0],
+      pos[1],self.player,patrol_points[random.randint(0,4)],0))
   def loop(self):
     self.bar_health.update_value(1000-self.player.health)
     self.bar_time.update_value(pg.time.get_ticks()-self.finish_timer)
@@ -148,12 +156,12 @@ class Scene_TestStage(scene.Scene):
       self.enemy_timer = pg.time.get_ticks()
       self.spawn_enemy()
     collision = pg.sprite.groupcollide(self.group_player,self.group_buildings,False,False,pg.sprite.collide_mask)
-    #for player in collision:
-      #for building in collision[player]:
-        #print('collision...'+building.name)
-        #flag = Flag(self, self.player.x, self.player.y)
-        #self.group_flag.add(flag)
-        #self.groups.append(self.group_flag)
+    for player in collision:
+      for building in collision[player]:
+        print('collision...'+building.name)
+        flag = Flag(self, self.player.x, self.player.y)
+        self.group_flag.add(flag)
+        self.groups.append(self.group_flag)
     collision = pg.sprite.groupcollide(self.group_enemy,self.group_playerbullets,False,True)
     for enemy in collision:
       for bullet in collision[enemy]:
