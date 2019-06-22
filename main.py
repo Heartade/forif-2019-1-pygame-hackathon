@@ -25,7 +25,7 @@ if __name__ == "__main__":
   SCENE_TIMECLEAR = scene_gameclear.Scene_GameClear(WINDOW, CLOCK, 60, [])
   SCENE = SCENE_MAINMENU
   while True:
-    SCENE.loop_begin()
+    SCENE.loop_begin() # begin loop
     next_scene = SCENE.loop()
     if next_scene != 0: # change scene according to loop return
       if SCENE == SCENE_MAINMENU and next_scene == 1:
