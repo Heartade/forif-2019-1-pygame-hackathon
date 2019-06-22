@@ -21,14 +21,16 @@ class Scene_LastBoss(scene.Scene):
                 #SOUND_shoot = pg.mixer.Sound('bullet.wav')
                 #pg.mixer.music.load('Gyoga.wav')
                 #pg.mixer.music.play(loops=-1)
-                self.player = prefabs_lastboss.Player(self,500,500)
+                self.player = prefabs_lastboss.Player(self,500,500,180)
                 self.group_player = pg.sprite.Group()
                 self.group_player.add(self.player)
                 self.group_professor = pg.sprite.Group()
                 self.group_bullets = pg.sprite.Group()
+                self.group_playerbullets = pg.sprite.Group()
                 self.groups.append(self.group_player)
                 self.groups.append(self.group_professor)
                 self.groups.append(self.group_bullets)
+                self.groups.append(self.group_playerbullets)
         def loop(self): 
                 for bullet in self.group_bullets:
                         if pg.sprite.collide_mask(self.player, bullet):

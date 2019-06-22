@@ -18,7 +18,7 @@ class Scene():
       sys.exit()
       return
   def loop_begin(self):
-    self.WINDOW.fill(colors.BLACK)
+    self.WINDOW.fill(colors.WHITE)
     for event in pg.event.get():
       self.event_handle(event)
     for group in self.groups:
