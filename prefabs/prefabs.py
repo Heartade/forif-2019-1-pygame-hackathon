@@ -179,6 +179,8 @@ class Player(pg.sprite.Sprite):
     if self.yspeed > 0: self.yspeed -= 50*second_passed
     elif self.yspeed < 0: self.yspeed += 50*second_passed
     # 좌표를 바꿔 줍니다.
+    self.old_x = self.x
+    self.old_y = self.y
     self.x += second_passed*self.xspeed
     self.y += second_passed*self.yspeed
     if self.x == pg.mouse.get_pos()[0]: self.angle = 90
@@ -200,6 +202,10 @@ class Player(pg.sprite.Sprite):
     self.rect = self.image.get_rect()
     self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
+    if pg.sprite.collide_mask(self,self.SCENE.edgemask):
+      self.x = self.old_x
+      self.y = self.old_y
+      self.rect.center = (int(self.x), int(self.y))
     self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))
 
 class Enemy(pg.sprite.Sprite):
@@ -209,6 +215,7 @@ class Enemy(pg.sprite.Sprite):
     self.radius = 16
     self.angle = 0
     self.target = target
+    self.gone = False # 테두리 안으로 들어간 적이 있습니까?
     char_selector = random.randint(0,2)
     if char_selector == 0:
       self.original_image = pg.image.load('./assets/avatar_professor.png')
@@ -286,6 +293,8 @@ class Enemy(pg.sprite.Sprite):
 
 
     # 좌표를 바꿔 줍니다.
+    self.old_x = self.x
+    self.old_y = self.y
     self.x += self.xspeed*second_passed
     self.y += self.yspeed*second_passed
     if self.x < 16:
@@ -300,8 +309,15 @@ class Enemy(pg.sprite.Sprite):
     if self.y > self.SCENE.WINDOW.get_size()[1] - 16:
       self.y = 2*self.SCENE.WINDOW.get_size()[1] - 32 - self.y
       self.xspeed = -self.xspeed
-
-    self.rect = self.original_image.get_rect()
+    #self.rect = self.original_image.get_rect()
     #self.trail_image = pg.transform.rotate(self.original_trail_image, self.angle) # 총알 이미지를 불러오고 회전합니다!
     self.rect.center = (int(self.x), int(self.y)) # Rect의 좌표를 변경된 좌표로 업데이트해 줍니다.
+    if pg.sprite.collide_mask(self,self.SCENE.edgemask):
+      if self.gone: # 처음에 적이 테두리 밖에서 태어나기 때문에, 테두리에서 한 번이라도 나온 적이 있는지 먼저 체크합니다.
+        self.x = self.old_x
+        self.y = self.old_y
+        self.rect.center = (int(self.x), int(self.y))
+    else:
+      self.gone = True
+    
     #self.SCENE.group_effects.add(FadeEffect(self.SCENE, 128, self.rect, self.trail_image, 0.5))

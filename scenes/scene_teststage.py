@@ -86,9 +86,18 @@ class Scene_TestStage(scene.Scene):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
     self.score = 0
     self.game_font = pg.font.Font('./assets/NotoSans-BoldItalic.ttf',24)
+    self.edgemask = BCGMask(self,'./assets/edgemask.png', 'Edge')
+    self.group_bcgmask = pg.sprite.Group()
+    self.group_bcgmask.add(self.edgemask)
     self.group_buildings = pg.sprite.Group()
     self.group_buildings.add(BCGMask(self,'./assets/bcg_edu.png','Education Building'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_library.png','Library'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_historic.png','Hanyang History Building'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_lion.png','Lion Statue'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_mainbdg.png','Main Building'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_itbt.png','IT/BT'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_engi2.png','Engineering Building 1'))
+    self.group_buildings.add(BCGMask(self,'./assets/bcg_engi1.png','Engineering Building 2'))
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
@@ -99,6 +108,7 @@ class Scene_TestStage(scene.Scene):
     self.group_background.add(self.background)
     self.group_flag = pg.sprite.Group()
     self.groups.append(self.group_buildings)
+    self.groups.append(self.group_bcgmask)
     self.groups.append(self.group_background)
     self.groups.append(self.group_enemy)
     self.groups.append(self.group_enemybullets)
