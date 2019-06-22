@@ -7,9 +7,12 @@ import prefabs.prefabs as prefabs
 import random
 
 #왼쪽 위 부터 넘버링
-building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-building_pos = [ [440, 265],[520,300], [] ]
+building_flag = [ [False,[440, 265]], [False,[520,300]] ]
 patrol_points = [ [250,200], [520,70], [670,80], [750,350], [620, 450]]
+
+def turn_flag(x,y):
+  for i in building_flag:
+    if (abs )
 
 class Bar(pg.sprite.Sprite):
   def __init__(self, SCENE, rect, image, edge, overlay, animation, speed, max_val):
@@ -73,7 +76,7 @@ class Flag(pg.sprite.Sprite):
   def __init__(self,SCENE,x,y):
     pg.sprite.Sprite.__init__(self)
     self.SCENE = SCENE
-    self.image = pg.image.load('./assets/drink_coffee.png')
+    self.image = pg.image.load('./assets/flag.png')
     self.rect = self.image.get_rect()
     self.rect.x = x
     self.rect.y = y
@@ -149,9 +152,11 @@ class Scene_TestStage(scene.Scene):
     for player in collision:
       for building in collision[player]:
         print('collision...'+building.name)
-        flag = Flag(self, self.player.x, self.player.y)
-        self.group_flag.add(flag)
-        self.groups.append(self.group_flag)
+        index = turn_flag(self.player.x, self.player.y)
+        if index[0] == False:
+          flag = Flag(self, index[0], index[1])
+          self.group_flag.add(flag)
+          self.groups.append(self.group_flag)
     collision = pg.sprite.groupcollide(self.group_enemy,self.group_playerbullets,False,True)
     for enemy in collision:
       for bullet in collision[enemy]:
