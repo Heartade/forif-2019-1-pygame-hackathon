@@ -87,10 +87,6 @@ class Scene_TestStage(scene.Scene):
     self.group_bcgmask = pg.sprite.Group()
     self.group_bcgmask.add(self.edgemask)
     self.group_buildings = pg.sprite.Group()
-<<<<<<< HEAD
-    self.group_buildings.add(BCGMask(self,'assets/bcg_edu.png','Education Building'))
-    self.group_buildings.add(BCGMask(self,'assets/bcg_library.png','Library'))
-=======
     self.group_buildings.add(BCGMask(self,'./assets/bcg_edu.png','Education Building'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_library.png','Library'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_historic.png','Hanyang History Building'))
@@ -99,7 +95,6 @@ class Scene_TestStage(scene.Scene):
     self.group_buildings.add(BCGMask(self,'./assets/bcg_itbt.png','IT/BT'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_engi2.png','Engineering Building 1'))
     self.group_buildings.add(BCGMask(self,'./assets/bcg_engi1.png','Engineering Building 2'))
->>>>>>> fdcf29b1633c37f5d1e8c8043f1bba3d98721bed
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!

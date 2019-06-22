@@ -69,14 +69,30 @@ class SuperExplosionEffect(FadeEffect):
       self.kill()
       return
     self.image.fill((255,255,255,int(self.alpha)),special_flags=pg.BLEND_RGBA_MULT)
-    
+
+
+# class Soju(pg.sprite.Sprite):
+#
+#   def __init__(self, SCENE, x, y):
+#     pg.sprite.Sprite.__init__(self)
+#     self.SCENE = SCENE
+#     self.x = x
+#     self.y = y
+#
+#   def drink_soju(self):
+#     if
+
+
+
 class Bullet(pg.sprite.Sprite): # 우선 총알 오브젝트를 만들고, 그 다음 아군 총알과 적군 총알을 구분할 거예요.
   def __init__(self, SCENE, x, y, speed, angle): # 인자 다섯 개를 받는 생성자예요.
     pg.sprite.Sprite.__init__(self) # 이 줄은 필수!
+    self.soju = pg.image.load('./assets/drink_soju.png')
+    self.soju = pg.transform.scale(self.soju, (64, 64))
     self.radius = 6
     self.SCENE = SCENE
-    self.image = pg.transform.rotate(pg.image.load('./assets/bullet.png'), angle) # 총알 이미지를 불러오고 회전합니다!
-    self.trail_image = pg.transform.rotate(pg.image.load('./assets/bullet_white.png'), angle) # 총알 이미지를 불러오고 회전합니다!
+    self.image = pg.transform.rotate(self.soju, angle) # 총알 이미지를 불러오고 회전합니다!
+    self.trail_image = pg.transform.rotate(self.soju, angle) # 총알 이미지를 불러오고 회전합니다!
     self.destroy_image = pg.image.load('./assets/explosion1.png')
     self.rect = self.image.get_rect() # rect는 게임 오브젝트의 크기와 위치를 담습니다!
     # 위에서는 이미지에 맞춰 rect를 설정하고 있습니다.
@@ -107,10 +123,13 @@ class Bullet(pg.sprite.Sprite): # 우선 총알 오브젝트를 만들고, 그 �
     self.SCENE.group_overlay.add(DestroyEffect(self.SCENE, 128, self.rect, self.destroy_image, 1))
 
 class EnemyBullet(Bullet):
+
   def __init__(self, SCENE, x, y, speed, angle): # 인자 다섯 개를 받는 생성자예요.
     super().__init__(SCENE, x, y, speed, angle)
-    self.image = pg.transform.rotate(pg.image.load('./assets/enemybullet.png'), angle) # 총알 이미지를 불러오고 회전합니다!
-    self.trail_image = pg.transform.rotate(pg.image.load('./assets/bullet_white.png'), angle) # 총알 이미지를 불러오고 회전합니다!
+    self.assignment = pg.image.load('./assets/assignment.png')
+    self.assignment = pg.transform.scale(self.assignment, (64, 64))
+    self.image = pg.transform.rotate(self.assignment, angle) # 총알 이미지를 불러오고 회전합니다!
+    self.trail_image = pg.transform.rotate(self.assignment, angle) # 총알 이미지를 불러오고 회전합니다!
     self.destroy_image = pg.image.load('./assets/explosion2.png')
 
 
@@ -173,6 +192,7 @@ class Player(pg.sprite.Sprite):
         self.yspeed = 100
       else :
         self.yspeed = 0
+
     # 속도를 점점 느리게 바꿔 줍니다.
     if self.xspeed > 0: self.xspeed -= 50*second_passed
     elif self.xspeed < 0: self.xspeed += 50*second_passed
@@ -256,7 +276,7 @@ class Enemy(pg.sprite.Sprite):
     pass
   def launch(self):
     if pg.time.get_ticks() - self.last_launch > 200:
-      #self.SCENE.group_enemybullets.add(EnemyBullet(self.SCENE,self.x,self.y,((self.xspeed**2+self.yspeed**2)**0.5+100,),self.angle))
+      self.SCENE.group_enemybullets.add(EnemyBullet(self.SCENE,self.x,self.y,((self.xspeed**2+self.yspeed**2)**0.5+100,),self.angle))
       self.last_launch = pg.time.get_ticks()
   def update(self):
     second_passed = self.SCENE.CLOCK.get_time()/1000
@@ -267,6 +287,7 @@ class Enemy(pg.sprite.Sprite):
       self.angry = 0
 
     if self.angry == 1:
+      self.launch()
       if self.x >= self.target.x:
           self.xspeed = -60
       if self.x < self.target.x:
@@ -290,6 +311,7 @@ class Enemy(pg.sprite.Sprite):
       if self.y < self.patrol_point[1]:
           if random.random()<0.7: self.yspeed = 60
           else: self.yspeed = 0
+
 
 
     # 좌표를 바꿔 줍니다.
