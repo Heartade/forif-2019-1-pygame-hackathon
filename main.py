@@ -13,7 +13,6 @@ import scenes.scene_lastboss as scene_lastboss
 
 if __name__ == "__main__":
   pg.init()
-  pg.mixer.init()
   pg.font.init()
 
   SCREEN = (1080, 720)

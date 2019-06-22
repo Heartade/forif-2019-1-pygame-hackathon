@@ -136,17 +136,6 @@ class Player(pg.sprite.Sprite):
       self.destroy()
   def destroy(self):
     self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
-    self.SCENE.group_overlay.add(SuperExplosionEffect(self.SCENE,128,self.rect,self.explosion_image,random.random()*2,30,random.random()))
     self.SCENE.death_time = pg.time.get_ticks()
     pass
   def launch(self):
