@@ -1,10 +1,6 @@
-import pygame as pg
-import wingbase.colors as colors
-import sys
-import wingbase.ui as ui
-import wingbase.scene as scene
 import prefabs.prefabs as prefabs
-import random
+import pygame as pg
+import wingbase.scene as scene
 
 building_flags = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 patrol_points = [[100, 100], [200,100], [300,100], [400,100], [500,100]]
@@ -76,14 +72,15 @@ class Flag(pg.sprite.Sprite):
     self.flag.x = x
     self.flag.y = y
 
+
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
     self.score = 0
     self.game_font = pg.font.Font('./assets/NotoSans-BoldItalic.ttf',24)
     self.group_buildings = pg.sprite.Group()
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_edu.png','Education Building'))
-    self.group_buildings.add(BCGMask(self,'./assets/bcg_library.png','Library'))
+    self.group_buildings.add(BCGMask(self,'assets/bcg_edu.png','Education Building'))
+    self.group_buildings.add(BCGMask(self,'assets/bcg_library.png','Library'))
     self.group_enemy = pg.sprite.Group() # 적 그룹!
     self.group_enemybullets = pg.sprite.Group() # 적 총알 그룹!
     self.group_playerbullets = pg.sprite.Group() # 총알 그룹!
