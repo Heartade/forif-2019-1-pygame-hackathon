@@ -9,7 +9,7 @@ class Scene_Gameover(scene.Scene):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
     self.group_button = pg.sprite.Group()
     self.groups.append(self.group_button)
-    self.tomainmenubutton = ui.Button(180,240,'./assets/goscreen.png',self.on_button_click)
+    self.tomainmenubutton = ui.Button(540,360,'./assets/goscreen.png',self.on_button_click)
     self.group_button.add(self.tomainmenubutton)
     self.to_next_stage = False
   def on_button_click(self,arg):

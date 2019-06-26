@@ -21,16 +21,12 @@ class Scene_GameClear(scene.Scene):
     self.score = score
     self.group_button = pg.sprite.Group()
     self.groups.append(self.group_button)
-    self.tomainmenubutton = ui.Button(180,240,'./assets/clearscreen.png',self.on_button_click)
-    self.score_text_surface = self.game_font.render("SCORE: "+str(score), True, pg.Color(255,255,255))
-    self.score_text_rect = self.score_text_surface.get_rect()
-    self.score_text_rect.center = (180,260)
+    self.tomainmenubutton = ui.Button(540,360,'./assets/clearscreen.png',self.on_button_click)
     self.group_button.add(self.tomainmenubutton)
     self.to_next_stage = False
   def on_button_click(self,arg):
     self.to_next_stage = True
   def loop(self):
-    self.WINDOW.blit(self.score_text_surface,self.score_text_rect)
     if self.to_next_stage:
       return 1
     else: return 0

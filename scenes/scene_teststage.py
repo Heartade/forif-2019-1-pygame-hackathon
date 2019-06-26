@@ -109,7 +109,7 @@ class Flag(pg.sprite.Sprite):
 class Scene_TestStage(scene.Scene):
   def __init__(self, WINDOW, CLOCK, FPS = 30, GROUPS = []):
     super().__init__(WINDOW, CLOCK, FPS=30, GROUPS=[])
-
+    self.flag_num = 0
     self.score = 0
     self.game_font = pg.font.Font('./assets/NotoSans-BoldItalic.ttf',24)
     self.edgemask = BCGMask(self,'./assets/edgemask.png', 'Edge')
@@ -208,7 +208,7 @@ class Scene_TestStage(scene.Scene):
     self.bar_health.update_value(1000-self.player.health)
     self.bar_time.update_value(pg.time.get_ticks()-self.finish_timer)
     time_left = 60000-(pg.time.get_ticks()-self.finish_timer)
-    if pg.time.get_ticks() - self.enemy_timer > 20000:
+    if pg.time.get_ticks() - self.enemy_timer > 10000:
       self.enemy_timer = pg.time.get_ticks()
       self.spawn_enemy()
     collision = pg.sprite.groupcollide(self.group_player,self.group_buildings,False,False,pg.sprite.collide_mask)
@@ -216,7 +216,10 @@ class Scene_TestStage(scene.Scene):
       for building in collision[player]:
         index = building_dict[building.name]
         if index[0] == False:
-          index[0] = True
+          building_dict[building.name][0] = True
+          self.flag_num += 1
+          if self.flag_num > 6:
+            return 1
           flag = Flag(self, index[1][0] + 85, index[1][1] - 180)
           self.group_flag.add(flag)
           self.groups.append(self.group_flag)
